@@ -23,6 +23,7 @@ import { AuthGuard } from './usuario/guards/auth.guard';
 import { RoleGuard } from './usuario/guards/role.guard';
 import{tokenInterceptor} from './usuario/interceptors/token.interceptor';
 import{AuthInterceptor} from './usuario/interceptors/auth.interceptor';
+import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
 
 
 
@@ -35,7 +36,8 @@ const routes: Routes =[
   {path: 'clientes/page/:page', component: ClientesComponent},
   {path: 'clientes/form/:id', component: FormComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
   {path: 'login', component: LoginComponent},
-  {path: 'clientes/form', component: FormComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}}
+  {path: 'clientes/form', component: FormComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
+  {path:'facturas/:id',component :  DetalleFacturaComponent}
 ];
 
 @NgModule({
@@ -48,7 +50,8 @@ const routes: Routes =[
     FormComponent,
     PaginatorComponent,
     DetalleComponent,
-    LoginComponent
+    LoginComponent,
+    DetalleFacturaComponent
   ],
   imports: [
     BrowserModule,
