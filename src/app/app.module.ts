@@ -9,7 +9,7 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { ClienteService } from './clientes/cliente.service';
 import { RouterModule,Routes } from '@angular/router';
 import { FormComponent } from './clientes/form.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { PaginatorComponent } from './paginator/paginator.component';
@@ -25,6 +25,9 @@ import{tokenInterceptor} from './usuario/interceptors/token.interceptor';
 import{AuthInterceptor} from './usuario/interceptors/auth.interceptor';
 import { DetalleFacturaComponent } from './facturas/detalle-factura.component';
 import { FacturasComponent } from './facturas/facturas.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 
 
@@ -38,8 +41,8 @@ const routes: Routes =[
   {path: 'clientes/form/:id', component: FormComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
   {path: 'login', component: LoginComponent},
   {path: 'clientes/form', component: FormComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}},
-  {path:'facturas/:id',component :  DetalleFacturaComponent},
-  {path:'facturas/form/:clienteId',component :  FacturasComponent}
+  {path:'facturas/:id',component :  DetalleFacturaComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_USER'}},
+  {path:'facturas/form/:clienteId',component :  FacturasComponent,canActivate:[AuthGuard,RoleGuard],data:{role:'ROLE_ADMIN'}}
 ];
 
 @NgModule({
@@ -61,7 +64,8 @@ const routes: Routes =[
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    BrowserAnimationsModule,MatDatepickerModule, MatMomentDateModule
+    BrowserAnimationsModule,MatDatepickerModule, MatMomentDateModule,
+    ReactiveFormsModule,MatAutocompleteModule,MatInputModule,MatFormFieldModule
   ],
   providers: [ClienteService, {provide: LOCALE_ID, useValue: 'es' },
   { provide: HTTP_INTERCEPTORS, useClass: tokenInterceptor, multi: true },
